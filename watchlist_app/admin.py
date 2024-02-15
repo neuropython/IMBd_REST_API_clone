@@ -1,5 +1,6 @@
 from django.contrib import admin
-from watchlist_app.models import Movies 
+from watchlist_app.models import WatchList, StreamPlatform
 # Register your models here.
 
-admin.site.register(Movies)
+admin.site.register(WatchList)
+admin.site.register(StreamPlatform)
