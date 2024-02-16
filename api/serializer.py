@@ -3,6 +3,8 @@ from watchlist_app.models import WatchList, Review
 from rest_framework import validators
 from watchlist_app.models import StreamPlatform
 
+# ------- Using ModelSerializer Class ---------
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
@@ -13,7 +15,7 @@ class WatchListSerializer(serializers.ModelSerializer):
  
     class Meta:
         model = WatchList
-        fields = ['name','description','active','time', 'platform', 'created']
+        fields = ['name','description','active','time', 'platform', 'created', 'reviews']
         
         
 class StreamPlatformSerializer(serializers.ModelSerializer):
@@ -23,6 +25,8 @@ class StreamPlatformSerializer(serializers.ModelSerializer):
         model = StreamPlatform
         fields = ['name', 'about', 'website', 'watchlist']
     
+
+# ------- Using Serializer Class --------- 
 
 # def name_length(value):
 #     if len(value) < 2:
