@@ -18,3 +18,13 @@ class WatchList(models.Model):
         
     def __str__(self):
         return self.name
+
+class Review (models.Model):
+    rating = models.FloatField()
+    description = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+    watchlist = models.ForeignKey(WatchList, on_delete=models.CASCADE, related_name="reviews")
+    
+    def __str__(self):
+        return f"{self.rating} - {self.watchlist.name}"
