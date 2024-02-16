@@ -3,39 +3,19 @@ from watchlist_app.models import WatchList
 from rest_framework import validators
 from watchlist_app.models import StreamPlatform
     
+
 class WatchListSerializer(serializers.ModelSerializer):
-    lenght = serializers.SerializerMethodField()
-    
+ 
     class Meta:
         model = WatchList
-        fields = '__all__'
-        
-    def get_lenght(self,object):
-        return len(object.name)
-    
-    def validate(self,data):
-        if data['name'] == data['description']:
-            raise serializers.ValidationError('Name and Description should be different')
-        else:
-            return data
-        
-    def validate_name(self,value):
-        if len(value) < 2:
-            raise serializers.ValidationError('Name is too short')
-        else:
-            return value
+        fields = ['__all__']
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
+    watchlist = WatchListSerializer(many=True, read_only=True)
+    
     class Meta:
         model = StreamPlatform
-        fields = '__all__'
-    
-    def validate_name(self,value):
-        if len(value) < 2:
-            raise serializers.ValidationError('Name is too short')
-        else:
-            return value
-
+        fields = ['watchlist', 'id', 'name', 'about', 'website']
     
 # def name_length(value):
 #     if len(value) < 2:

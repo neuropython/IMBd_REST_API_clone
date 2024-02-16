@@ -42,6 +42,7 @@ class StreamPlatformDetailsAV(APIView):
         data = WatchList.objects.get(pk=pk)
         data.delete()
         return Response(status.HTTP_204_NO_CONTENT)
+    
 class WatchListListAV(APIView):
     def get(self,request):
         data = WatchList.objects.all()
