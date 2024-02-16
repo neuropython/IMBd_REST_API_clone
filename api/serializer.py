@@ -8,14 +8,15 @@ class WatchListSerializer(serializers.ModelSerializer):
  
     class Meta:
         model = WatchList
-        fields = ['__all__']
-
+        fields = ['name','description','active','time', 'platform', 'created']
+        
+        
 class StreamPlatformSerializer(serializers.ModelSerializer):
     watchlist = WatchListSerializer(many=True, read_only=True)
     
     class Meta:
         model = StreamPlatform
-        fields = ['watchlist', 'id', 'name', 'about', 'website']
+        fields = ['name', 'about', 'website', 'watchlist']
     
 # def name_length(value):
 #     if len(value) < 2:

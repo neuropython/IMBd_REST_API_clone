@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from watchlist_app.models import WatchList
+from watchlist_app.models import WatchList, StreamPlatform
 from django.http import JsonResponse
 from rest_framework.response import Response
 from .serializer import WatchListSerializer, StreamPlatformSerializer
@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 class StreamPlatformAV(APIView):
     def get(self,request):
-        data = WatchList.objects.all()
+        data = StreamPlatform.objects.all()
         movies = StreamPlatformSerializer(data,many=True)
         return Response(movies.data)
     
@@ -24,14 +24,14 @@ class StreamPlatformAV(APIView):
 class StreamPlatformDetailsAV(APIView):
     def get(self,request,pk):
         try:
-            data = WatchList.objects.get(pk=pk)
-        except WatchList.DoesNotExist:
+            data = StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
             return Response({'error':'Movie not found'},status=status.HTTP_404_NOT_FOUND)
         movies = StreamPlatformSerializer(data)
         return Response(movies.data)
         
     def put(self,request,pk):
-        data = WatchList.objects.get(pk=pk)
+        data = StreamPlatform.objects.get(pk=pk)
         movies = StreamPlatformSerializer(data, request.data)
         if movies.is_valid():
             movies.save()
@@ -39,7 +39,7 @@ class StreamPlatformDetailsAV(APIView):
         else:
             return Response(movies.errors,status.HTTP_400_BAD_REQUEST)
     def delete(self,request,pk):
-        data = WatchList.objects.get(pk=pk)
+        data = StreamPlatform.objects.get(pk=pk)
         data.delete()
         return Response(status.HTTP_204_NO_CONTENT)
     
