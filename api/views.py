@@ -9,12 +9,63 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
 from .serializer import ReviewSerializer
+from rest_framework import filters
+from rest_framework import viewsets
+
+# ------- Using ViewSet Class ---------
+
+class StreamPlatformVS(viewsets.ViewSet):
+    
+    def list(self,request):
+        data = StreamPlatform.objects.all()
+        movies = StreamPlatformSerializer(data,many=True)
+        return Response(movies.data)
+    
+    def create(self,request):
+        movies = StreamPlatformSerializer(data=request.data)
+        if movies.is_valid():
+            movies.save()
+            return Response(movies.data)
+        else:
+            return Response(movies.errors)
+    
+    def retrieve(self,request,pk=None):
+        data = StreamPlatform.objects.get(pk=pk)
+        movies = StreamPlatformSerializer(data)
+        return Response(movies.data)
+    
+    def update(self,request,pk):
+        data = StreamPlatform.objects.get(pk=pk)
+        movies = StreamPlatformSerializer(data, request.data)
+        if movies.is_valid():
+            movies.save()
+            return Response(movies.data)
+        else:
+            return Response(movies.errors,status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self,request,pk):
+        data = StreamPlatform.objects.get(pk=pk)
+        data.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
+
 
 # ------- Using generic class ---------
 
-class ReviewList(generics.ListCreateAPIView):
+class ReviewList(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
+
+class ReviewCreate(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+    
+    def perform_create(self,serializer):
+        pk = self.kwargs['pk']
+        watchlist = WatchList.objects.get(pk=pk)
+        serializer.save(watchlist=watchlist)
 
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
