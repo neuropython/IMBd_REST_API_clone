@@ -164,6 +164,8 @@ class StreamPlatformDetailsAV(APIView):
         return Response(status.HTTP_204_NO_CONTENT)
     
 class WatchListListAV(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self,request):
         data = WatchList.objects.all()
         movies = WatchListSerializer(data,many=True)
@@ -178,6 +180,8 @@ class WatchListListAV(APIView):
             return Response(movies.errors)
                             
 class WatchListDetailsAV(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self,request,pk):
         try:
             data = WatchList.objects.get(pk=pk)

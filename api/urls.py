@@ -15,7 +15,7 @@ router.register('stream', StreamPlatformVS, basename='stream')
 
 urlpatterns = [
     path('list/', WatchListListAV.as_view(), name='movie-list'),
-    path('<int:pk>', WatchListDetailsAV.as_view(), name= 'movie_details' ),
+    path('<int:pk>/', WatchListDetailsAV.as_view(), name= 'movie_details' ),
     
     # - Using multple url-s
     # path("stream_platform/", StreamPlatformAV.as_view(), name="stream_platform"),
@@ -25,8 +25,8 @@ urlpatterns = [
     # - Using single url
     path("", include(router.urls)),
         
-    path('<int:pk>/review', ReviewList.as_view(), name='review-list'),
-    path('<int:pk>/review-create', ReviewCreate.as_view(), name='review-list'),
+    path('<int:pk>/review/', ReviewList.as_view(), name='review-list'),
+    path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-list'),
     path("review/<int:pk>/", ReviewDetails.as_view(), name="review-detail")
     
 ]
