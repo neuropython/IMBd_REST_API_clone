@@ -19,7 +19,7 @@ class WatchListSerializer(serializers.ModelSerializer):
  
     class Meta:
         model = WatchList
-        fields = ['name','description','active','time', 'platform', 'created', 'reviews']
+        fields = ['name','description','active','time', 'platform', 'created', 'reviews', 'avg_rating', 'num_of_rating']
         
         
 class StreamPlatformSerializer(serializers.ModelSerializer):
