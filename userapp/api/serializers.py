@@ -26,10 +26,10 @@ class UserSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=self.validated_data.get('email')).exists():
             raise serializers.ValidationError({'email': 'Email already exists.'})
         
-        user = User.objects.create_user(
-        username=username,
+        user = User.objects.create_user( 
         email=email,
-        password=password
+        password=password,
+        username=username
         )
         user.save()
         return user
