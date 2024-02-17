@@ -25,8 +25,8 @@ urlpatterns = [
     # - Using single url
     path("", include(router.urls)),
         
-    path('one/<int:pk>/review', ReviewList.as_view(), name='review-list'),
-    path('one/<int:pk>/review-create', ReviewCreate.as_view(), name='review-list'),
-    path("one/review/<int:pk>", ReviewDetails.as_view(), name="review-details")
+    path('<int:pk>/review', ReviewList.as_view(), name='review-list'),
+    path('<int:pk>/review-create', ReviewCreate.as_view(), name='review-list'),
+    path("review/<int:pk>/", ReviewDetails.as_view(), name="review-detail")
     
 ]
