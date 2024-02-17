@@ -9,13 +9,14 @@ from .serializer import (
     StreamPlatformSerializer,
     ReviewSerializer,
 )
+from api.permissions import AdminOrReadOnly
 
 
 
 # ------- Using ViewSet Class ---------
 
 class StreamPlatformVS(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AdminOrReadOnly]
     
     def list(self,request):
         data = StreamPlatform.objects.all()
