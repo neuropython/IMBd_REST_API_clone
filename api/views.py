@@ -1,20 +1,21 @@
-from django.shortcuts import render
-from watchlist_app.models import WatchList, StreamPlatform, Review
-from django.http import JsonResponse
+from rest_framework import filters, mixins, serializers, status, viewsets, generics
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
-from .serializer import WatchListSerializer, StreamPlatformSerializer
-from rest_framework.decorators import api_view
-from rest_framework import status
-from rest_framework.views import APIView 
-from rest_framework import mixins
-from rest_framework import generics
-from .serializer import ReviewSerializer
-from rest_framework import filters
-from rest_framework import viewsets
+from rest_framework.views import APIView
+
+from watchlist_app.models import WatchList, StreamPlatform, Review
+from .serializer import (
+    WatchListSerializer,
+    StreamPlatformSerializer,
+    ReviewSerializer,
+)
+
+
 
 # ------- Using ViewSet Class ---------
 
 class StreamPlatformVS(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
     
     def list(self,request):
         data = StreamPlatform.objects.all()
@@ -61,11 +62,18 @@ class ReviewList(generics.ListAPIView):
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
+    queryset = Review.objects.none() # This is to avoid the error of "queryset not defined"
     
     def perform_create(self,serializer):
         pk = self.kwargs['pk']
         watchlist = WatchList.objects.get(pk=pk)
-        serializer.save(watchlist=watchlist)
+        
+        current_user = self.request.user
+        queryset = Review.objects.filter(watchlist=watchlist, review_user=current_user)
+        if queryset.exists():
+            raise serializers.ValidationError('You have already reviewed this movie')
+        else:
+            serializer.save(watchlist=watchlist, review_user=current_user)
 
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
