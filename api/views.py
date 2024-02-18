@@ -55,6 +55,7 @@ class StreamPlatformVS(viewsets.ViewSet):
 
 class ReviewList(generics.ListAPIView):
     
+    
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     
@@ -64,7 +65,7 @@ class ReviewList(generics.ListAPIView):
     
 
 class ReviewCreate(generics.CreateAPIView):
-    serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated] 
     queryset = Review.objects.none() # This is to avoid the error of "queryset not defined"
     
     def perform_create(self,serializer):
@@ -128,6 +129,7 @@ class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
 # ------- Using APIView Class ---------
 
 class StreamPlatformAV(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         data = StreamPlatform.objects.all()
         movies = StreamPlatformSerializer(data,many=True)
@@ -142,6 +144,7 @@ class StreamPlatformAV(APIView):
             return Response(movies.errors)
         
 class StreamPlatformDetailsAV(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self,request,pk):
         try:
             data = StreamPlatform.objects.get(pk=pk)

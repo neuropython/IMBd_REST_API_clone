@@ -3,6 +3,14 @@ from userapp.api.serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from userapp import models
+from rest_framework import status
+
+
+@api_view(['POST'])
+def logout_view(request):
+    request.user.auth_token.delete()
+    return Response(status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def registration_view(request):
@@ -16,7 +24,6 @@ def registration_view(request):
             data['response'] = 'successfully registered new user.'
             data['email'] = account.email
             data['username'] = account.username
-            
             token = Token.objects.get(user=account).key
             data['token'] = token
         else:
