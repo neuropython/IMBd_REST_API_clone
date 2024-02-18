@@ -8,7 +8,9 @@ from .views import (WatchListListAV,
                     ReviewList, 
                     ReviewDetails, 
                     ReviewCreate, 
-                    StreamPlatformVS)
+                    StreamPlatformVS,
+                    UserReview,
+                    UserReviewQuerry)
 
 router = DefaultRouter()
 router.register('stream', StreamPlatformVS, basename='stream')
@@ -24,9 +26,13 @@ urlpatterns = [
     
     # - Using single url
     path("", include(router.urls)),
-        
     path('<int:pk>/review/', ReviewList.as_view(), name='review-list'),
     path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-list'),
-    path("review/<int:pk>/", ReviewDetails.as_view(), name="review-detail")
+    
+    # ---Different filtering methods---
+    path("review/<int:pk>/", ReviewDetails.as_view(), name="review-detail"),
+    path("reviews/<str:username>/", UserReview.as_view(), name="user-review-detail"),
+    path("reviews/", UserReviewQuerry.as_view(), name="querry-review-detail")
+    
     
 ]

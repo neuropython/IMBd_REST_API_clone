@@ -9,11 +9,29 @@ from .serializer import (
     StreamPlatformSerializer,
     ReviewSerializer,
 )
-from api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
-
+from .permissions import AdminOrReadOnly, ReviewUserOrReadOnly
+from .throttling import ReviewCreateThrottle
 
 
 # ------- Using ViewSet Class ---------
+
+class UserReviewQuerry(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        username = self.request.query_params.get('username',None)
+        return  Review.objects.filter(review_user__username=username)
+
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
+    
+    
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return  Review.objects.filter(review_user__username=username)
+    
 
 class StreamPlatformVS(viewsets.ViewSet):
     permission_classes = [AdminOrReadOnly]
@@ -65,6 +83,7 @@ class ReviewList(generics.ListAPIView):
     
 
 class ReviewCreate(generics.CreateAPIView):
+    serializer_class = [ReviewSerializer]
     permission_classes = [IsAuthenticated] 
     queryset = Review.objects.none() # This is to avoid the error of "queryset not defined"
     

@@ -4,7 +4,7 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('watchlist/', include('api.urls')),
+    path('watchlist/', include('watchmate.api.urls')),
     path('account/', include('userapp.api.urls')),
     # path('api-auth/', include('rest_framework.urls') , name='rest_framework')
 ]
