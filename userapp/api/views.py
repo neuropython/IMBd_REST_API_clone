@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from userapp import models
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 @api_view(['POST'])
@@ -24,8 +25,19 @@ def registration_view(request):
             data['response'] = 'successfully registered new user.'
             data['email'] = account.email
             data['username'] = account.username
+            
+            # ---Token stored in DB---
             token = Token.objects.get(user=account).key
             data['token'] = token
+            
+            # ---JWT Token---
+        
+            # token = RefreshToken.for_user(account)
+            # data['token'] = {
+            #     'refresh': str(token),
+            #     'access': str(token.access_token),
+            # }
+            
         else:
             data = serializer.errors
             
