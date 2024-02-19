@@ -11,9 +11,18 @@ from .serializer import (
 )
 from .permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from .throttling import ReviewCreateThrottle
-
-
+from django_filters.rest_framework import DjangoFilterBackend
+from .pagination import WatchListPagination
 # ------- Using ViewSet Class ---------
+
+class SearchWatch(generics.ListAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'description'] # @ is used to search in the description
+                                              # field and i am using Postgres DB
+    ordering_fields = ['avg_rating']
+
 
 class UserReviewQuerry(generics.ListAPIView):
     serializer_class = ReviewSerializer
@@ -56,7 +65,7 @@ class StreamPlatformVS(viewsets.ViewSet):
     
     def update(self,request,pk):
         data = StreamPlatform.objects.get(pk=pk)
-        movies = StreamPlatformSerializer(data, request.data)
+        movies = StreamPlatformSerializer(data, request.data, )
         if movies.is_valid():
             movies.save()
             return Response(movies.data)
@@ -72,10 +81,10 @@ class StreamPlatformVS(viewsets.ViewSet):
 # ------- Using generic class ---------
 
 class ReviewList(generics.ListAPIView):
-    
-    
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['review_user__username', 'active']
     
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -83,13 +92,12 @@ class ReviewList(generics.ListAPIView):
     
 
 class ReviewCreate(generics.CreateAPIView):
-    serializer_class = [ReviewSerializer]
+    serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated] 
     queryset = Review.objects.none() # This is to avoid the error of "queryset not defined"
     
     def perform_create(self,serializer):
         pk = self.kwargs['pk']
-        print(pk)
         watchlist = WatchList.objects.get(pk=pk)
         print(watchlist)
         
@@ -184,6 +192,11 @@ class StreamPlatformDetailsAV(APIView):
         data = StreamPlatform.objects.get(pk=pk)
         data.delete()
         return Response(status.HTTP_204_NO_CONTENT)
+
+class WatchListListGV(generics.ListCreateAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    pagination_class = WatchListPagination
     
 class WatchListListAV(APIView):
     permission_classes = [IsAuthenticated]

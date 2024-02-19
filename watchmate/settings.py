@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'userapp',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
-    'djago_qr_code',
+    'django_filters',
     
 ]
 
@@ -144,7 +144,13 @@ REST_FRAMEWORK = {
         'anon': '5/day',
         'user': '100/day',
         'review-create-throttle': '1/day'
-    }
+    },
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 2,
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    
 }
 
 SIMPLE_JWT = {

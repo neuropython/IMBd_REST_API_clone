@@ -10,9 +10,12 @@ from .views import (WatchListListAV,
                     ReviewCreate, 
                     StreamPlatformVS,
                     UserReview,
-                    UserReviewQuerry)
+                    UserReviewQuerry,
+                    SearchWatch,
+                    WatchListListGV)
 
 router = DefaultRouter()
+# router is used to generate urls for the viewset avoiding many lines of code for same urls
 router.register('stream', StreamPlatformVS, basename='stream')
 
 urlpatterns = [
@@ -24,15 +27,18 @@ urlpatterns = [
     # path("stream_platform/<int:pk>", StreamPlatformDetailsAV.as_view(), 
     #      name="stream_platform_details"),
     
-    # - Using single url
+    # ---Using single url---
     path("", include(router.urls)),
     path('<int:pk>/review/', ReviewList.as_view(), name='review-list'),
-    path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-list'),
+    path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create'),
     
     # ---Different filtering methods---
     path("review/<int:pk>/", ReviewDetails.as_view(), name="review-detail"),
     path("reviews/<str:username>/", UserReview.as_view(), name="user-review-detail"),
-    path("reviews/", UserReviewQuerry.as_view(), name="querry-review-detail")
+    path("reviews/", UserReviewQuerry.as_view(), name="querry-review-detail"),
+    path("search/", SearchWatch.as_view(), name="querry-review-detail"),
+    path('pagination/', WatchListListGV.as_view(), name='movie-list-paginated')
+    
     
     
 ]

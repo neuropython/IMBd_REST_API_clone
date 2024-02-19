@@ -4,7 +4,7 @@ from rest_framework import validators
 from watchlist_app.models import StreamPlatform
 
 # ------- Using ModelSerializer Class ---------
-
+#  Serializers are used to convert the data into JSON format
 class ReviewSerializer(serializers.ModelSerializer):
     review_user = serializers.StringRelatedField(read_only=True)
     
@@ -13,13 +13,13 @@ class ReviewSerializer(serializers.ModelSerializer):
         exclude = ['watchlist']
         
 
-class WatchListSerializer(serializers.ModelSerializer):
+class WatchListSerializer(serializers.ModelSerializer):    
     reviews = ReviewSerializer(many=True, read_only=True)
+    platform = serializers.CharField(source='platform.name',)
     
- 
     class Meta:
         model = WatchList
-        fields = ['name','description','active','time', 'platform', 'created', 'reviews', 'avg_rating', 'num_of_rating']
+        fields = ['name', 'description', 'active', 'time', 'platform', 'created', 'reviews', 'avg_rating', 'num_of_rating']
         
         
 class StreamPlatformSerializer(serializers.ModelSerializer):
