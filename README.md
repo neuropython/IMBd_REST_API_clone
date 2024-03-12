@@ -2,7 +2,6 @@
 # Watchamte
 
 Watchmate is an IMDb clone - https://www.imdb.com/
-Watchmate was done with this course - Build REST APIs with Django REST Framework and Python 
 The project covers many topics from Django rest api framework such as:
 - class based views (different types)
 - Function-based views
