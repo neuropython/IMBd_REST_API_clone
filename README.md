@@ -18,28 +18,28 @@ The project covers many topics from Django rest api framework such as:
 
 ## Screenshots
 
-<h3>#Authentication</h3>
+### Authentication
 <img alt="Authentication" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/Authetication.jpg">
 
-<h3>#Custom Validation</h3>
+### Custom Validation
 <img alt="Custom Validation" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/Custom%20validation.jpg">
 
-<h3>#JWT - explanation - please use github white theme :)</h3>
+### JWT - explanation - please use GitHub white theme :)
 <img alt="JWT - explenation" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/JWTExp.svg">
 
-<h3>#postman</h3>
+### postman
 <img alt="postman" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/POSTMAN_1.jpg">
 
-<h3>#pagination</h3>
+### pagination
 <img alt="pagination" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/Pagination.jpg">
 
-<h3>#django-rest-api test</h3>
+### django-rest-api test
 <img alt="django-rest-api test" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/REST_API_TESTS.jpg">
 
-<h3>#throttling</h3>
+### throttling
 <img alt="throttling" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/Throttling.jpg">
 
-<h3>#how tokens are handled in my app</h3>
+### how tokens are handled in my app
 <img alt="how tokens are handled in my app" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/Token%20Handling.drawio.svg">
 
 ## Demo
