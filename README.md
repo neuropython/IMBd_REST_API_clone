@@ -41,8 +41,3 @@ The project covers many topics from Django rest api framework such as:
 
 ### how tokens are handled in my app
 <img alt="how tokens are handled in my app" src="https://github.com/neuropython/IMBd_REST_API_clone/blob/master/readme_images/Token%20Handling.drawio.svg">
-
-## Demo
-
-project is deployed here
-
